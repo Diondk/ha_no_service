@@ -1,9 +1,3 @@
-# Root level files (local HA installation - don't track)
-/__init__.py
-/api.py
-/sensor.py
-/manifest.json
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

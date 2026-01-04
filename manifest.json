@@ -1,13 +1,13 @@
 {
     "domain": "ha_no_service",
     "name": "HA No Service",
-    "codeowners": ["@Diondk"],
+    "codeowners": [],
     "config_flow": false,
     "dependencies": [],
-    "documentation": "https://github.com/Diondk/ha_no_service",
+    "documentation": "https://github.com/hotheadhacker/no-as-a-service",
     "integration_type": "service",
     "iot_class": "cloud_polling",
-    "issue_tracker": "https://github.com/Diondk/ha_no_service/issues",
+    "issue_tracker": "https://github.com/hotheadhacker/no-as-a-service/issues",
     "requirements": [],
     "version": "1.0.0"
 }
