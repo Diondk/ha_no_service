@@ -1,0 +1,3 @@
+get_no:
+  name: Get a new rejection reason
+  description: Fetch a new random rejection reason and update the HA No Service sensor.
