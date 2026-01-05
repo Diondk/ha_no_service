@@ -37,39 +37,38 @@ Perfect for when you need a creative excuse to say "no" - now integrated into yo
 
 ## Configuration
 
-Add to your `configuration.yaml`:
+All configuration is done via the **Home Assistant UI**:
 
+1. Go to **Settings → Devices & Services**
+2. Click **+ Add Integration**
+3. Search for **HA No Service**
+4. Enter your API URL:
+   - Default/Public API: `https://naas.isalman.dev/no`
+   - Custom: Use your own [no-as-a-service Docker instance](https://github.com/hotheadhacker/no-as-a-service) (e.g., `http://localhost:8080/no`)
+5. Click **Submit**
+
+The integration will automatically create a sensor and start fetching rejection reasons.
+
+### Changing Configuration
+
+To change the API URL:
+- Go to **Settings → Devices & Services → HA No Service**
+- Click the three dots (⋮) and select **Configure**
+- Update the API URL
+- Click **Submit**
+
+### Legacy YAML Configuration (Deprecated)
+
+**Note**: YAML configuration is deprecated and will be automatically migrated to the UI when Home Assistant restarts.
+
+If you have existing YAML configuration like this:
 ```yaml
 sensor:
   - platform: ha_no_service
-    api_url: "https://naas.isalman.dev/no"  # Required: API endpoint URL
+    api_url: "https://naas.isalman.dev/no"
 ```
 
-### Using a Custom API (Docker/Self-Hosted)
-
-If you're running your own instance of the no-as-a-service API (e.g., in Docker), configure your custom API URL:
-
-```yaml
-sensor:
-  - platform: ha_no_service
-    api_url: "http://localhost:8080/no"
-```
-
-Or add it via a package file:
-
-```yaml
-ha_no_service_package:
-  sensor:
-    - platform: ha_no_service
-      api_url: "http://your-docker-host:8080/no"  # Your custom API endpoint
-```
-
-**Configuration Options:**
-- `api_url` (**required**): API endpoint URL
-  - Default/Public API: `https://naas.isalman.dev/no`
-  - Custom: Use your own [no-as-a-service Docker instance](https://github.com/hotheadhacker/no-as-a-service)
-
-Restart Home Assistant after configuration.
+It will be automatically imported to the UI configuration. You can then remove it from your YAML files.
 
 ## Usage
 
