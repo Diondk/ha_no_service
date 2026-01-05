@@ -12,14 +12,13 @@ import voluptuous as vol
 from homeassistant.helpers import config_validation as cv
 
 from .api import NoAsAServiceAPI
+from .const import DOMAIN, CONF_API_URL
 
 _LOGGER = logging.getLogger(__name__)
 
-DOMAIN = "ha_no_service"
 SCAN_INTERVAL = timedelta(hours=1)
 
 SERVICE_GET_NO = "get_no"
-CONF_API_URL = "api_url"
 
 PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend(
     {
@@ -69,10 +68,32 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up HA No Service sensor from a config entry."""
+    api_url = entry.data[CONF_API_URL]
     session = async_get_clientsession(hass)
-    api = NoAsAServiceAPI(session)
+    api = NoAsAServiceAPI(session, api_url)
 
     async_add_entities([NoAsAServiceSensor(api)], True)
+
+    # Register service to manually refresh the "no"
+    if not hass.services.has_service(DOMAIN, SERVICE_GET_NO):
+        async def handle_get_no(call):
+            """Handle the get_no service call."""
+            # Find the sensor and force update
+            for component in hass.data.get("entity_components", {}).values():
+                if hasattr(component, "entities"):
+                    for entity in component.entities:
+                        if isinstance(entity, NoAsAServiceSensor):
+                            await entity.async_update()
+                            await entity.async_update_ha_state(force_refresh=True)
+                            _LOGGER.info("Manual 'no' update triggered")
+                            return
+
+        hass.services.async_register(
+            DOMAIN,
+            SERVICE_GET_NO,
+            handle_get_no,
+            schema=vol.Schema({}),
+        )
 
 
 class NoAsAServiceSensor(SensorEntity):
