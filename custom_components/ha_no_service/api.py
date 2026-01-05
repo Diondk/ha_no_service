@@ -8,22 +8,22 @@ import async_timeout
 
 _LOGGER = logging.getLogger(__name__)
 
-API_URL = "https://naas.isalman.dev/no"
 TIMEOUT = 10
 
 
 class NoAsAServiceAPI:
     """API client for No as a Service."""
 
-    def __init__(self, session: aiohttp.ClientSession) -> None:
+    def __init__(self, session: aiohttp.ClientSession, api_url: str) -> None:
         """Initialize the API client."""
         self._session = session
+        self._api_url = api_url
 
     async def get_no(self) -> dict[str, Any] | None:
         """Get a 'no' response from the API."""
         try:
             async with async_timeout.timeout(TIMEOUT):
-                response = await self._session.get(API_URL)
+                response = await self._session.get(self._api_url)
                 response.raise_for_status()
                 data = await response.json()
 

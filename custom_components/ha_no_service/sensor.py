@@ -19,6 +19,13 @@ DOMAIN = "ha_no_service"
 SCAN_INTERVAL = timedelta(hours=1)
 
 SERVICE_GET_NO = "get_no"
+CONF_API_URL = "api_url"
+
+PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend(
+    {
+        vol.Required(CONF_API_URL): cv.url,
+    }
+)
 
 
 async def async_setup_platform(
@@ -28,8 +35,9 @@ async def async_setup_platform(
     discovery_info: DiscoveryInfoType | None = None,
 ) -> None:
     """Set up the HA No Service sensor platform."""
+    api_url = config[CONF_API_URL]
     session = async_get_clientsession(hass)
-    api = NoAsAServiceAPI(session)
+    api = NoAsAServiceAPI(session, api_url)
 
     async_add_entities([NoAsAServiceSensor(api)], True)
 

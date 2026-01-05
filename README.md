@@ -42,6 +42,17 @@ Add to your `configuration.yaml`:
 ```yaml
 sensor:
   - platform: ha_no_service
+    api_url: "https://naas.isalman.dev/no"  # Required: API endpoint URL
+```
+
+### Using a Custom API (Docker/Self-Hosted)
+
+If you're running your own instance of the no-as-a-service API (e.g., in Docker), configure your custom API URL:
+
+```yaml
+sensor:
+  - platform: ha_no_service
+    api_url: "http://localhost:8080/no"
 ```
 
 Or add it via a package file:
@@ -50,7 +61,13 @@ Or add it via a package file:
 ha_no_service_package:
   sensor:
     - platform: ha_no_service
+      api_url: "http://your-docker-host:8080/no"  # Your custom API endpoint
 ```
+
+**Configuration Options:**
+- `api_url` (**required**): API endpoint URL
+  - Default/Public API: `https://naas.isalman.dev/no`
+  - Custom: Use your own [no-as-a-service Docker instance](https://github.com/hotheadhacker/no-as-a-service)
 
 Restart Home Assistant after configuration.
 
