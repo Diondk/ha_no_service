@@ -1,5 +1,6 @@
 {
   "name": "HA No Service",
+  "domains": ["ha_no_service"],
   "render_readme": true,
   "homeassistant": "2024.1.0",
   "filename": "ha_no_service"
